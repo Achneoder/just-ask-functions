@@ -17,6 +17,10 @@
     "@types/joi": "^14.3.4",
     "@types/node": "^12.12.62",
     "@types/nodemailer": "^6.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
     "husky": "^3.1.0",
     "jest-cucumber": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
@@ -25,8 +29,6 @@
     "prettier": "^2.1.2",
     "ts-jest": "^26.4.3",
     "ts-node": "^8.8.2",
-    "tslint": "^6.1.3",
-    "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.0.3"
   },
   "dependencies": {
@@ -73,6 +75,6 @@
     }
   },
   "lint-staged": {
-    "*.{ts,js}": "tslint --fix"
+    "*.{ts,js}": "eslint --fix"
   }
 }
