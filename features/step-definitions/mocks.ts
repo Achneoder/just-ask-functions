@@ -133,9 +133,8 @@ export function mockStorage() {
   }));
 }
 
-export function mockPubSub() {
-  // @ts-ignore
-  pubSub.PubSub = jest.fn(() => ({
+export const pubSubMock = () => ({
+  PubSub: jest.fn(() => ({
     topic: jest.fn((targetTopic: string) => {
       return {
         publishJSON: jest.fn((data: any) => {
@@ -145,8 +144,8 @@ export function mockPubSub() {
         })
       };
     })
-  }));
-}
+  }))
+})
 
 export const verifyIdTokenMock = (token) => {
   return new Promise((resolve, reject) => {
