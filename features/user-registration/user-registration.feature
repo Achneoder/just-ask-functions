@@ -14,7 +14,7 @@ Feature: register basic user
       "email": "some.sample@my-email.de",
       "displayName": "Johnny",
       "password": "12345678",
-      "languages": ["DE", "EN"]
+      "languages": ["de_DE", "en_US"]
     }
     """
     Then a NOT verified firebase user should be created with email "some.sample@my-email.de", password "12345678" and displayName "Johnny"
@@ -23,7 +23,7 @@ Feature: register basic user
     {
       "email": "some.sample@my-email.de",
       "displayName": "Johnny",
-      "languages": ["DE", "EN"]
+      "languages": ["de_DE", "en_US"]
     }
     """
     And a file "0bxPDKQCVaQ2JMKJCDmIaEocWdA2/${uuid}.json" should be written to bucket "jask-user-email-trigger" with payload:
@@ -52,7 +52,7 @@ Feature: register basic user
       "email": "some.sample@my-email.de",
       "displayName": "Johnny",
       "password": "12345678",
-      "languages": ["DE", "EN"],
+      "languages": ["de_DE", "en_US"],
       "callbackUri": "https://some.other.uri/reg"
     }
     """
@@ -62,7 +62,7 @@ Feature: register basic user
     {
       "email": "some.sample@my-email.de",
       "displayName": "Johnny",
-      "languages": ["DE", "EN"]
+      "languages": ["de_DE", "en_US"]
     }
     """
     And a file "0bxPDKQCVaQ2JMKJCDmIaEocWdA2/${uuid}.json" should be written to bucket "jask-user-email-trigger" with payload:
@@ -90,7 +90,7 @@ Feature: register basic user
       "email": "some.sample@my-email.de",
       "displayName": "Johnny",
       "password": "12345678",
-      "languages": ["DE", "EN"],
+      "languages": ["de_DE", "en_US"],
       "callbackUri": "https://ignored.uri/reg"
     }
     """
@@ -100,7 +100,7 @@ Feature: register basic user
     {
       "email": "some.sample@my-email.de",
       "displayName": "Johnny",
-      "languages": ["DE", "EN"]
+      "languages": ["de_DE", "en_US"]
     }
     """
     And a file "0bxPDKQCVaQ2JMKJCDmIaEocWdA2/${uuid}.json" should be written to bucket "jask-user-email-trigger" with payload:
@@ -138,13 +138,13 @@ Feature: register basic user
 
     Examples:
         | Email                        | DisplayName              | Password                | Languages                               |
-        |                              | "displayName": "Johnny", | "password": "12345678", | "languages": ["DE", "EN"]               |
-        | "email": "johnny@test.test", |                          | "password": "12345678", | "languages": ["DE", "EN"]               |
-        | "email": "johnny@test.test", | "displayName": "Johnny", |                         | "languages": ["DE", "EN"]               |
+        |                              | "displayName": "Johnny", | "password": "12345678", | "languages": ["de_DE", "en_US"]               |
+        | "email": "johnny@test.test", |                          | "password": "12345678", | "languages": ["de_DE", "en_US"]               |
+        | "email": "johnny@test.test", | "displayName": "Johnny", |                         | "languages": ["de_DE", "en_US"]               |
         | "email": "johnny@test.test", | "displayName": "Johnny", | "password": "12345678"  |                                         |
-        | "email": "johnny@test",      | "displayName": "Johnny", | "password": "12345678", | "languages": ["DE", "EN"]               |
+        | "email": "johnny@test",      | "displayName": "Johnny", | "password": "12345678", | "languages": ["de_DE", "en_US"]               |
         | "email": "johnny@test.test", | "displayName": "Johnny", | "password": "12345678", | "languages": []                         |
-        | "email": "johnny@test.test", | "displayName": "Johnny", | "password": "12345678", | "languages": ["DE", "EN", "SOME_OTHER"] |
+        | "email": "johnny@test.test", | "displayName": "Johnny", | "password": "12345678", | "languages": ["de_DE", "en_US", "SOME_OTHER"] |
 
   Scenario: register basic user fails, email already in use
     Given the world is beautiful
@@ -161,7 +161,7 @@ Feature: register basic user
       "email": "existing@user.de",
       "displayName": "Johnny",
       "password": "12345678",
-      "languages": ["DE", "EN"]
+      "languages": ["de_DE", "en_US"]
     }
     """
     Then firebase user with id "0bxPDKQCVaQ2JMKJCDmIaEocWdA2" should NOT exist

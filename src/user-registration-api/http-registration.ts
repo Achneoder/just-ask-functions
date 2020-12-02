@@ -21,7 +21,7 @@ export class HttpRegistration extends HttpBase<{ id: string }> {
       email: Joi.string().email().required(),
       displayName: Joi.string().required(),
       languages: Joi.array()
-        .items(Joi.string().valid(...Object.keys(Language)))
+        .items(Joi.string().valid(...Object.values(Language)))
         .min(1),
       callbackUri: Joi.string().optional(),
       password: Joi.string().min(6).required()
