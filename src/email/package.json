@@ -1,0 +1,5 @@
+{
+  "name": "gafi-function-user-email",
+  "version": "1.1.0",
+  "main": "dist/user-email/index.js"
+}

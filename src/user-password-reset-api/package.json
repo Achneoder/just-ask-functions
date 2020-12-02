@@ -1,0 +1,5 @@
+{
+  "name": "user-password-reset-api",
+  "version": "1.0.0",
+  "main": "dist/user-password-reset-api/index.js"
+}

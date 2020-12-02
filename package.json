@@ -1,0 +1,73 @@
+{
+  "name": "just-ask",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage"
+  },
+  "author": "me@codingoncatnip.de",
+  "license": "MIT",
+  "devDependencies": {
+    "@google-cloud/functions-framework": "^1.7.1",
+    "@types/ejs": "^3.0.2",
+    "@types/express": "^4.17.8",
+    "@types/jest": "24.0.11",
+    "@types/joi": "^14.3.4",
+    "@types/node": "^12.12.62",
+    "@types/nodemailer": "^6.4.0",
+    "husky": "^3.1.0",
+    "jest-cucumber": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.20",
+    "prettier": "^2.1.2",
+    "pretty-quick": "^2.0.2",
+    "ts-jest": "^26.4.3",
+    "ts-node": "^8.8.2",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@google-cloud/pubsub": "^2.5.0",
+    "@google-cloud/storage": "^5.3.0",
+    "ejs": "^3.1.5",
+    "firebase-admin": "^9.2.0",
+    "gcp-object-storage": "^0.3.4",
+    "joi": "^17.2.1",
+    "nodemailer": "^6.4.12",
+    "uuid": "^8.3.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": ".",
+    "testMatch": [
+      ".spec.ts$",
+      "**/*.steps.ts",
+      "**/*/steps.ts"
+    ],
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "./coverage",
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/features/"
+    ],
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src/",
+      "<rootDir>/features/"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "trigger": "CHANGE_FINGERPRINT_WARNING",
+  "firebaseUserId": "60102914-80e5-11ea-bc55-0242ac130003",
+  "fingerprintData": {
+    "userAgent": "user-agent",
+    "geolocation": "DE",
+    "ipBlock": "10.10.10",
+    "createdAt": "12-09-2020"
+  }
+}
