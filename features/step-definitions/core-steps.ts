@@ -206,26 +206,127 @@ export const steps: StepDefinitions = ({ given, and, when, then }) => {
     (fileName: string, bucketName: string, payload: string) => {
       const expectedData = JSON.parse(payload);
       const bucket = Container.get().getBucketData()[bucketName];
-      if (fileName.includes('${uuid}')) {
+      if (fileName.includes('${uuid}') || fileName.includes('${userId}')) {
         // merge all written files in requested bucket, that have an uuid as the filename to an array.
         const datas = Object.entries(bucket)
           .filter(([writtenFileName, writtenData]) => {
             return (
               writtenData.__test_newlyWritten &&
-              new RegExp(
-                fileName.replace('${uuid}', '([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12})'),
+              (new RegExp(
+                '^'
+                  .concat(
+                    fileName.replace('${uuid}', '([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12})')
+                  )
+                  .concat('$'),
                 'i'
-              ).test(writtenFileName)
+              ).test(writtenFileName) ||
+                new RegExp('^'.concat(fileName.replace('${userId}', '([0-9a-zA-Z]{1,})')).concat('$')).test(
+                  writtenFileName
+                ))
             );
           })
           .map(([writtenFileName, writtenObject]) => writtenObject.data);
         expect(datas).toContainEqual(expectedData);
+        const entry = Object.entries(bucket).find(([key, value]) => _.isEqual(value.data, expectedData));
+        Container.get().setRememberedFile({ fileName: entry[0], value: entry[1] });
       } else {
         expect(bucket[fileName]['data']).toEqual(expectedData);
         expect(bucket[fileName].__test_newlyWritten).toBeTruthy();
+        Container.get().setRememberedFile({ fileName, value: bucket[fileName] });
       }
     }
   );
+
+  then(
+    /a file "([^"]*)" should be written to bucket "([^"]*)", assuming correct (attribute|attributes) "([^"]*)", with payload:/,
+    (fileName: string, bucket: string, quantifier: string, attribute: string, payload: string) => {
+      const file = JSON.parse(payload);
+      if (quantifier === 'attributes') {
+        attribute.split(',').forEach((attr) => {
+          delete file[attr.trim()];
+        });
+      } else {
+        delete file[attribute];
+      }
+      const buckets = Container.get().getBucketData();
+      if (fileName.includes('${uuid') || fileName.includes('${userId}')) {
+        // merge all written files in requested bucket, that have an uuid as the filename to an array.
+        const datas = [].concat
+          .apply(
+            [],
+            Object.entries(buckets).map(([key, value]) => {
+              if (key === bucket) {
+                return Object.entries(value).map(([writtenFilename, writtenData]) => {
+                  if (
+                    new RegExp(
+                      '^'
+                        .concat(
+                          fileName.replace(
+                            '${uuid}',
+                            '([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12})'
+                          )
+                        )
+                        .concat('$'),
+                      'i'
+                    ).test(writtenFilename) ||
+                    new RegExp('^'.concat(fileName.replace('${userId}', '([0-9a-zA-Z]{1,})')).concat('$')).test(
+                      writtenFilename
+                    )
+                  ) {
+                    return writtenData.data;
+                  }
+                });
+              }
+            })
+          )
+          .filter((value) => value)
+          .map((data) => {
+            const clone = _.clone(data);
+            if (quantifier === 'attributes') {
+              attribute.split(',').forEach((attr) => {
+                delete clone[attr.trim()];
+              });
+            } else {
+              delete clone[attribute];
+            }
+            return clone;
+          });
+
+        expect(datas).toContainEqual(file);
+        const entry = Object.entries(buckets[bucket])
+          .map(([key, value]) => {
+            const clone = JSON.parse(JSON.stringify(value));
+            if (quantifier === 'attributes') {
+              attribute.split(',').forEach((attr) => {
+                delete clone.data[attr.trim()];
+              });
+            } else {
+              delete clone.data[attribute];
+            }
+            return [key, clone];
+          })
+          .find(([key, value]) => _.isEqual(value.data, file));
+        Container.get().setRememberedFile({ fileName: entry[0], value: buckets[bucket][entry[0]] });
+      } else {
+        const clone = _.clone(buckets[bucket][fileName]['data']);
+        if (quantifier === 'attributes') {
+          attribute.split(',').forEach((attr) => {
+            delete clone[attr.trim()];
+          });
+        } else {
+          delete clone[attribute];
+        }
+        expect(clone).toEqual(file);
+        Container.get().setRememberedFile({ fileName, value: buckets[bucket][fileName] });
+      }
+    }
+  );
+
+  then(/this file should have attribute "([^"]*)" of value being one of:/, (attribute: string, data: string) => {
+    const rememberedFile = Container.get().getRememberedFile();
+    const values = JSON.parse(data);
+    expect(values).toContainEqual(rememberedFile.value.data[attribute]);
+  });
 
   then(/the response status should be "(\d+)"/, (statusCode: string) => {
     expect(Container.get().getFunctionResponse().statusCode).toEqual(Number(statusCode));

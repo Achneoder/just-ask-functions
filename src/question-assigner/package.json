@@ -1,0 +1,5 @@
+{
+  "name": "question-publisher",
+  "version": "1.0.0",
+  "main": "dist/question-publisher/index.js"
+}
