@@ -1,5 +1,5 @@
 import { autoBindSteps, loadFeature } from 'jest-cucumber';
-import { handleEvent } from '../../src/email';
+import { handleEvent } from '../../src/question-publisher';
 import { Container } from '../step-definitions/container';
 import { steps } from '../step-definitions/core-steps';
 
