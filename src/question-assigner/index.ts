@@ -1,10 +1,10 @@
-import { BucketEvent } from '../core/interfaces/gcp/bucket-event.interface';
-import { QuestionPublisher } from './question-publisher';
+import { QuestionAssigner } from './question-assigner';
 
-export async function handleEvent(event: BucketEvent) {
+export async function handleEvent(event: { data: any }) {
   try {
-    await new QuestionPublisher(event).exec();
+    await new QuestionAssigner(event).exec();
   } catch (err) {
     console.error(err.message);
+    throw err
   }
 }

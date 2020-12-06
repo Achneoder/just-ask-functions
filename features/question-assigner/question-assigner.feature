@@ -1,6 +1,5 @@
 Feature: Assign question to user
 
-  @excluded
   Scenario: Assign new question to user
     Given the world is beautiful
     And environment variables are set as follows:
@@ -19,7 +18,7 @@ Feature: Assign question to user
       "language": "de_DE"
     }
     """
-    And a file "cbe44ed5-14c7-47fc-b1e1-8b52ce9f1258.json" in bucket "questions" with payload:
+    And a file "cbe44ed5-14c7-47fc-b1e1-8b52ce9f1258.json" in bucket "question-pool" with payload:
     """
     {
       "askedBy": "userA",
@@ -42,8 +41,8 @@ Feature: Assign question to user
     And this file should have attribute "assignees" of value being one of:
     """
     [
-      [userB],
-      [userC]
+      ["userB"],
+      ["userC"]
     ]
     """
     And a file "${userId}/cbe44ed5-14c7-47fc-b1e1-8b52ce9f1258.json" should be written to bucket "assigned-questions" with payload:

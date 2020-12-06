@@ -62,3 +62,13 @@ export async function getPasswordResetLink(email: string, callbackUri: string): 
   const oobCode = link.split('oobCode=')[1].split('&')[0];
   return `${callbackUri}?${querystring.stringify({ oobCode })}`;
 }
+
+export async function listAllUserIds(pageToken?: string): Promise<Array<string>> {
+  initializeFirebase();
+  const result = await admin.auth().listUsers(1000, pageToken);
+  const userIds = result.users.map((user: admin.auth.UserRecord) => user.uid);
+  if(result.pageToken) {
+    return [...userIds, ...(await listAllUserIds(result.pageToken))];
+  }
+  return userIds;
+}
