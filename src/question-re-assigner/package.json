@@ -1,0 +1,5 @@
+{
+  "name": "question-re-assigner",
+  "version": "1.0.0",
+  "main": "dist/question-re-assigner/index.js"
+}
