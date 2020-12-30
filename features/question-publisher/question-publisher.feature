@@ -6,7 +6,7 @@ Feature: Publish Question
       | EnvVar                      | Value               |
       | QUESTION_POOL_BUCKET        | question-pool       |
       | QUESTION_ASSIGNMENT_TOPIC   | question-assignment |
-    And a file "userA/cbe44ed5-14c7-47fc-b1e1-8b52ce9f1258.json" in bucket "questions" with payload:
+    And a file "userA/cbe44ed5-14c7-47fc-b1e1-8b52ce9f1258.json" in bucket "own-questions" with payload:
     """
     {
       "title": "Lorem ipsum",
@@ -14,7 +14,7 @@ Feature: Publish Question
       "language": "de_DE"
     }
     """
-    When a write event for file "userA/cbe44ed5-14c7-47fc-b1e1-8b52ce9f1258.json" is triggered on bucket "questions"
+    When a write event for file "userA/cbe44ed5-14c7-47fc-b1e1-8b52ce9f1258.json" is triggered on bucket "own-questions"
     Then a file "cbe44ed5-14c7-47fc-b1e1-8b52ce9f1258.json" should be written to bucket "question-pool" with payload:
     """
     {
