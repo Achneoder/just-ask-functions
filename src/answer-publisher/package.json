@@ -1,0 +1,5 @@
+{
+  "name": "answer-publisher",
+  "version": "1.0.0",
+  "main": "dist/answer-publisher/index.js"
+}

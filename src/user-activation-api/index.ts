@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { BaseError } from '../core/error/base.error';
 import { HttpUserActivation } from './http-user-activation';
 
-export async function handleEvent(req: Request, res: Response) {
+export async function handleEvent(req: Request, res: Response): Promise<Response> {
   try {
     const response = await new HttpUserActivation(req).getResponseData();
     return res.status(200).json(response);

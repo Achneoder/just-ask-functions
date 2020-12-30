@@ -1,7 +1,5 @@
-import { Request } from 'express';
 import * as admin from 'firebase-admin';
 import { ObjectReader, ObjectWriter } from 'gcp-object-storage';
-import { UnauthorizedError } from './error/unauthorized.error';
 import { BucketEvent } from './interfaces/gcp/bucket-event.interface';
 
 export abstract class BucketListener<K> {

@@ -5,10 +5,11 @@ import { EmailType } from '../core/email/emailType.enum';
 import { EmailTrigger } from '../core/email/interfaces/email-trigger.interface';
 import { getActivationLink, getPasswordResetLink, getUser } from '../core/firebase';
 import ejs = require('ejs');
+import { BucketEvent } from '../core/interfaces/gcp/bucket-event.interface';
 
 let objectReader: ObjectReader;
 
-export async function handleEvent(data: any) {
+export async function handleEvent(data: BucketEvent): Promise<void> {
   if (!objectReader) {
     objectReader = new ObjectReader();
   }

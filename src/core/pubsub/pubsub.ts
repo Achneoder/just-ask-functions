@@ -9,6 +9,7 @@ function getPubSub(): PubSub {
   return pubSub;
 }
 
+//eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 export function publishToTopic(topic: string, data: any): Promise<string> {
   return getPubSub().topic(topic).publishJSON(data);
 }

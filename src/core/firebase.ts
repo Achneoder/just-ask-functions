@@ -5,7 +5,7 @@ import ActionCodeSettings = admin.auth.ActionCodeSettings;
 
 let initialized = false;
 
-export function initializeFirebase() {
+export function initializeFirebase(): void {
   if (!initialized) {
     admin.initializeApp();
   }
@@ -67,7 +67,7 @@ export async function listAllUserIds(pageToken?: string): Promise<Array<string>>
   initializeFirebase();
   const result = await admin.auth().listUsers(1000, pageToken);
   const userIds = result.users.map((user: admin.auth.UserRecord) => user.uid);
-  if(result.pageToken) {
+  if (result.pageToken) {
     return [...userIds, ...(await listAllUserIds(result.pageToken))];
   }
   return userIds;

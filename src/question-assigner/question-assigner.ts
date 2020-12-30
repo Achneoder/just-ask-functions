@@ -1,10 +1,11 @@
 import { listAllUserIds } from '../core/firebase';
+import { PubSubEvent } from '../core/interfaces/gcp/pubsub-event.interface';
 import { QuestionPoolItem } from '../core/interfaces/question-pool-item.interface';
 import { Question } from '../core/interfaces/question.interface';
 import { PubSubListener } from '../core/pub-sub-listener';
 
 export class QuestionAssigner extends PubSubListener<{ questionId: string }> {
-  constructor(event: any) {
+  constructor(event: PubSubEvent) {
     super(event);
   }
 

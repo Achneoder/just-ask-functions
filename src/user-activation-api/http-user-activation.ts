@@ -27,6 +27,6 @@ export class HttpUserActivation extends HttpBase<void> {
   }
 
   protected validate<T>(body: T): Promise<T> {
-    return Promise.resolve(undefined);
+    return Promise.resolve(body);
   }
 }

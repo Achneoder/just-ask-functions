@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import { ObjectReader, ObjectWriter } from 'gcp-object-storage';
+import { PubSubEvent } from './interfaces/gcp/pubsub-event.interface';
 
 export abstract class PubSubListener<K> {
   private static firebaseInitialized = false;
@@ -8,7 +9,7 @@ export abstract class PubSubListener<K> {
 
   protected readonly eventData: K;
 
-  constructor(event: any) {
+  constructor(event: PubSubEvent) {
     if (!PubSubListener.objectReader || PubSubListener.objectWriter) {
       PubSubListener.objectReader = new ObjectReader();
       PubSubListener.objectWriter = new ObjectWriter();
@@ -18,9 +19,7 @@ export abstract class PubSubListener<K> {
       PubSubListener.firebaseInitialized = true;
     }
 
-    this.eventData = JSON.parse(
-      Buffer.from(event.data, 'base64').toString()
-    );
+    this.eventData = JSON.parse(Buffer.from(event.data, 'base64').toString());
   }
 
   /**

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { BaseError } from '../core/error/base.error';
 import { HttpPasswordReset } from './http-password-reset';
 
-export async function handleEvent(req: Request, res: Response) {
+export async function handleEvent(req: Request, res: Response): Promise<Response> {
   try {
     const response = await new HttpPasswordReset(req).getResponseData();
     return res.status(200).json(response);
