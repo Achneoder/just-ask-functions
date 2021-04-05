@@ -328,6 +328,12 @@ export const steps: StepDefinitions = ({ given, and, when, then }) => {
     expect(values).toContainEqual(rememberedFile.value.data[attribute]);
   });
 
+  then(/this file should have attribute "([^"]*)" of value at index "(\d+)" being one of:/, (attribute: string, index: string, data: string) => {
+    const rememberedFile = Container.get().getRememberedFile();
+    const values = JSON.parse(data);
+    expect(values).toContainEqual(rememberedFile.value.data[attribute][Number(index)]);
+  });
+
   then(/the response status should be "(\d+)"/, (statusCode: string) => {
     expect(Container.get().getFunctionResponse().statusCode).toEqual(Number(statusCode));
   });

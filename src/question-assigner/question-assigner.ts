@@ -22,7 +22,13 @@ export class QuestionAssigner extends PubSubListener<{ questionId: string }> {
     const excludedUsers = [questionPoolItem.askedBy, ...questionPoolItem.assignees];
     const allUser = await listAllUserIds();
     const allAvailableUsers = allUser.filter((userId: string) => !excludedUsers.includes(userId));
-    const selectedUser = allAvailableUsers[Math.floor(Math.random() * allAvailableUsers.length)];
+    let selectedUser: string;
+    if(allAvailableUsers.length) {
+      selectedUser = allAvailableUsers[Math.floor(Math.random() * allAvailableUsers.length)];
+    } else {
+      const allUsersButAsking = allUser.filter((userId: string) => userId !== questionPoolItem.askedBy);
+      selectedUser = allUsersButAsking[Math.floor(Math.random() * allUsersButAsking.length)];
+    }
     questionPoolItem.assignees.push(selectedUser);
     await PubSubListener.objectWriter.writeObject(
       questionPoolItem,
